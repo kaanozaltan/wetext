@@ -11,6 +11,7 @@
 
 ### 4. Fetch Database Changes 
 `python manage.py makemigrations`
+
 `python manage.py migrate`
 
 ### 5. Create Admin User 
