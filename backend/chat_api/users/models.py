@@ -4,16 +4,20 @@ from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, password, **extra_fields):
+    def create_user(self, username, first_name, last_name, password):
         if not username:
             raise ValueError("Username field is required")
+        if not first_name:
+            raise ValueError("First name field is required")
+        if not last_name:
+            raise ValueError("Last name field is required")
 
-        user = self.model(username=username, **extra_fields)
+        user = self.model(username=username, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, password, **extra_fields):
+    def create_superuser(self, username, first_name, last_name, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -24,12 +28,13 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(username, password, **extra_fields)
+        return self._create_user(username, first_name, last_name, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(unique=True, max_length=100)
-    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
@@ -38,6 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_online = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = UserManager()
 
     def _str_(self):
