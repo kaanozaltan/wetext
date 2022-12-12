@@ -7,7 +7,7 @@
 `source <environment_name>/bin/activate`
 
 ### 3. Install Required Packages
-`pip install -r requierements.txt`
+`pip install -r requirements.txt`
 
 ### 4. Fetch Database Changes 
 `python manage.py makemigrations`
