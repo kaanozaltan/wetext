@@ -10,6 +10,7 @@ from rest_framework import status
 from .models import Jwt, User
 from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer, UserSerializer
 from .authentication import Authentication
+from .permissions import IsAuthenticatedCustom
 from . import utils
 
 
@@ -98,7 +99,7 @@ class LogoutView(RetrieveAPIView):
 
 class MeView(APIView):
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedCustom, )
 
     def get(self, request):
         serializer = self.serializer_class(request.user)

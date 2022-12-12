@@ -28,12 +28,11 @@ def get_refresh_token():
     )
 
 
-def decodeJWT(bearer):
-    if not bearer:
+def decodeJWT(token):
+    if not token:
         return None
 
-    token = bearer[7:]
-    decoded = jwt.decode(token, key=settings.SECRET_KEY)
+    decoded = jwt.decode(token, key=settings.SECRET_KEY, algorithms=["HS256"])
     if decoded:
         try:
             return User.objects.get(id=decoded["user_id"])
