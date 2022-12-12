@@ -1,13 +1,14 @@
 from django.contrib.auth import authenticate
 
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 
 
 from .models import Jwt, User
-from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer
+from .serializers import LoginSerializer, RegisterSerializer, RefreshSerializer, UserSerializer
 from .authentication import Authentication
 from . import utils
 
@@ -93,3 +94,15 @@ class LogoutView(RetrieveAPIView):
         Jwt.objects.filter(user_id=user_id).delete()
 
         return Response("Logged out successfully", status=200)
+
+
+class MeView(APIView):
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        serializer = self.serializer_class(request.user)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+
