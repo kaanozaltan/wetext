@@ -4,8 +4,8 @@ from .models import User, Jwt
 
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-        'username', 'email', 'created_at',
-        'updated_at', 'is_superuser'
+        'username', 'first_name', 'last_name', 'created_at',
+        'updated_at', 'is_superuser', 'is_active',
     )
 
 
