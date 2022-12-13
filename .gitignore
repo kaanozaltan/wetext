@@ -134,3 +134,7 @@ dmypy.json
 
 # MacOS File
 .DS_Store
+
+# Project File
+chat-socket/node_modules
+chat-socket/package-lock.json
