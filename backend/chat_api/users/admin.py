@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Jwt
+from .models import User
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -10,4 +10,3 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Jwt)

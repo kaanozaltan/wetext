@@ -1,6 +1,11 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
+from django.conf import settings
+
+from rest_framework.authtoken.models import Token
 
 
 class UserManager(BaseUserManager):
@@ -53,11 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ("created_at",)
 
 
-class Jwt(models.Model):
-    user = models.OneToOneField(
-        User, related_name="login_user", on_delete=models.CASCADE)
-    access = models.TextField()
-    refresh = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
