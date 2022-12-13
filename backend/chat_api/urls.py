@@ -5,4 +5,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('chat_api.users.urls'), name='user'),
+    path('api/', include('chat_api.chats.urls'), name='chat'),
 ]
