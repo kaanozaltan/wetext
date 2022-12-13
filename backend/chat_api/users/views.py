@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, logout
 
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -63,10 +63,14 @@ class LogoutView(RetrieveAPIView):
 
 class MeView(APIView):
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         serializer = self.serializer_class(request.user)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-
+class UserListAPIView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
