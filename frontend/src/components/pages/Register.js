@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { axiosHandler } from "../helper";
+import { REGISTER_URL } from "../utils/urls";
 import { AuthForm } from "./Login";
 
 const Register = (props) => {
@@ -7,7 +9,17 @@ const Register = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log(registerData);
+    // setLoading(true);
+    const result = await axiosHandler({
+      method: "post",
+      url: REGISTER_URL,
+      data: registerData,
+    }).catch((e) => console.log(e));
+    console.log(result);
+    // if (result) {
+    //   await loginRequest(registerData, setError, props);
+    // }
+    // setLoading(false);
   };
 
   const onChange = (e) => {

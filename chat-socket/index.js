@@ -5,8 +5,13 @@ let bodyParser = require("body-parser");
 let path = require("path");
 let socket = require("socket.io")();
 
-
 const port = 9000;
+// const io = require("socket.io")(6000, {
+//     cors: {
+//         origin: 'http://localhost:3000'
+//     }
+// })
+
 
 app = express();
 
@@ -24,7 +29,11 @@ app.post("/server", (req, res) => {
     res.status(201).json({ status: "reached" });
 });
 
-let io = socket.listen(server);
+let io = socket.listen(server, {
+    cors: {
+        origin: 'http://localhost:3000'
+    }
+});
 
 io.on("connection", socket => {
     socket.on("command", data => {

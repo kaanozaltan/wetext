@@ -1,24 +1,30 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MdLogout } from "react-icons/md";
+import { logout } from "../authController";
 import Chat from "../chatComponents/Chat";
 import FriendsList from "../chatComponents/FriendsList";
+import { activeChatUserAction } from "../stateManagement/actions";
+import { store } from "../stateManagement/store";
 
 const Home = (props) => {
   const [userdetail, setUserDetail] = useState(null);
   const [activeFriend, setActiveFriend] = useState(null);
+  const [me, setMe] = useState({})
 
-  const logout = () => {
-    console.log('logout');
-    window.location.href = "/login";
-  }
+  const {dispatch} = useContext(store)
 
   useEffect(() => {
-    let activeFriend = {
-      name: "Görkem Ayten"
-    }
-    setActiveFriend(activeFriend)
+    const me = JSON.parse(localStorage.getItem("user"));
+    setMe(me)
   }, [])
+
+  const selectFriend = (friend) => {
+    console.log(friend);
+    setActiveFriend(friend)
+    localStorage.setItem('activeFriend', JSON.stringify(friend));
+    dispatch({type: activeChatUserAction, payload: friend})
+  }
 
   return (
     <>
@@ -26,13 +32,13 @@ const Home = (props) => {
         <div className="side close" id="sideBar">
           <div className="flex align-center justify-center top">
             <div className="contents">
-              <div className="username">fatihkaplama</div>
+              <div className="username">{`${me.first_name} ${me.last_name}`}</div>
               {/* {!props.noStatus && <div className="subContent">{props.caption}</div>} */}
             </div>
           </div>
           <hr />
-          <FriendsList></FriendsList>
-          <button className="logout" onClick={() => logout()}>
+          <FriendsList selectFriend={selectFriend}></FriendsList>
+          <button className="logout" onClick={() => logout(props)}>
             <MdLogout></MdLogout>
             <div>Logout</div>
           </button>

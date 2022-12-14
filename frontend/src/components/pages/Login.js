@@ -1,14 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { checkAuthState, tokenName } from "../authController";
+import { axiosHandler } from "../helper";
 import Loader from "../Loader";
+import { LOGIN_URL } from "../utils/urls";
 
+
+export const loginRequest = async (data, props) => {
+    console.log(data);
+    const result = await axiosHandler({
+      method: "post",
+      url: LOGIN_URL,
+      data: data,
+    }).catch((e) => console.log(e));
+    console.log(result);
+    if (result) {
+      localStorage.setItem(tokenName, JSON.stringify(result.data));
+      props.history.push("/home");
+    }
+  };
 
 const Login = (props) => {
   const [loginData, setLoginData] = useState({});
+  const [checking, setChecking] = useState(localStorage.getItem(tokenName));
+
+
+  useEffect(() => {
+    if (checking) {
+      checkAuthState(
+        () => null,
+        () => props.history.push("/"),
+        props
+      );
+    }
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log(loginData);
+    console.log("submit");
+    // setLoading(true);
+    // setError(null);
+    await loginRequest(loginData, props);
+    // setLoading(false);
   };
 
   const onChange = (e) => {
@@ -20,7 +53,7 @@ const Login = (props) => {
 
   return (
     <div className="loginContainer">
-      {false ? (
+      {checking ? (
         <div className="centerAll">
           <Loader />
         </div>
@@ -59,9 +92,21 @@ export const AuthForm = (props) => {
           <div className="input-container">
             <input
               className="input-field"
-              placeholder="Email Address"
-              value={props.data.email}
-              name="email"
+              placeholder="Name"
+              value={props.data.name}
+              name="name"
+              onChange={props.onChange}
+              required
+            />
+          </div>
+        )}
+        {!props.login && (
+          <div className="input-container">
+            <input
+              className="input-field"
+              placeholder="Surname"
+              value={props.data.surname}
+              name="surname"
               onChange={props.onChange}
               required
             />

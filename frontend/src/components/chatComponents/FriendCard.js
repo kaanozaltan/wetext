@@ -1,27 +1,20 @@
 import React from 'react'
 
-function FriendCard(props) {
-    let mesCount = 0;
-    if (props.mesCount) {
-        if (parseInt(props.mesCount) > 0) {
-            mesCount = props.mesCount;
-        }
-    }
+function FriendCard({ friend, selectFriend }) {
     return (
         <div
-            className={`flex align-center justify-between friendsMain ${props.clickable ? "clickable" : ""
+            className={`flex align-center justify-between friendsMain clickable
                 }`}
-            onClick={() => props.clickable && props.onClick()}
+            onClick={() => selectFriend(friend)}
         >
             <div className='friendCard'>
                 <div className="contents">
-                    <div className="name">{props.name}</div>
-                    <div className="subContent">{props.lastMes}</div>
+                    <div className="name">{friend.first_name} {friend.last_name}</div>
                 </div>
             </div>
-            {
+            {/* {
                 mesCount > 0 && <div className="counter">{props.mesCount}</div>
-            }
+            } */}
 
         </div>
     )
