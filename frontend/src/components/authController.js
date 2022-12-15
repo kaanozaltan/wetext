@@ -33,9 +33,6 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
         logout(props);
         return;
     }
-    console.log(token);
-
-    // token = JSON.parse(token);
     localStorage.setItem('token', token)
     var userProfile = axios.get(ME_URL, {
         headers: {
