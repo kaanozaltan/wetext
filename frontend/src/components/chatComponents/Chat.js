@@ -1,6 +1,6 @@
 import { type } from '@testing-library/user-event/dist/type';
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { sendTestSocket } from '../../socketService';
 import { axiosHandler, getToken } from '../helper';
@@ -12,6 +12,7 @@ function Chat({ activeFriend }) {
     const [message, setMessage] = useState("")
     const [me, setMe] = useState({});
     const [messages, setMessages] = useState([]);
+    const messagesEndRef = useRef(null)
 
     const { state: { activeChat }, dispatch } = useContext(store)
 
@@ -31,6 +32,7 @@ function Chat({ activeFriend }) {
 
     useEffect(() => {
         console.log(messages);
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }, [messages])
 
     const getMessages = () => {
@@ -58,10 +60,18 @@ function Chat({ activeFriend }) {
         })
 
         if (result) {
+            scrollToBottom()
             setMessages([messages, ...arr]);
         }
 
     }
+
+    const scrollToBottom = () => {
+        setTimeout(() => {
+          let chatArea = document.getElementById("chatArea")
+          chatArea.scrollTop = chatArea.scrollHeight;
+        }, 5)
+      }
 
     const handleScroll = () => {
         console.log("handle scroll");
@@ -88,10 +98,12 @@ function Chat({ activeFriend }) {
         }).catch((error) => {
             console.log(error);
         })
+        if(result){
+            scrollToBottom()
+        }
         // sendTestSocket(data)
         setMessage("")
         // console.log(result);
-        console.log('submit message');
     }
     return (
         <div>
@@ -118,6 +130,7 @@ function Chat({ activeFriend }) {
                         </div>
                     ))
                 )}
+                <div ref={messagesEndRef}></div>
             </div>
             <form onSubmit={submitMessage} className="messageZone">
                 <input
