@@ -11,6 +11,7 @@ const Home = (props) => {
   const [userdetail, setUserDetail] = useState(null);
   const [activeFriend, setActiveFriend] = useState(null);
   const [me, setMe] = useState({})
+  console.log('home');
 
   const { dispatch } = useContext(store)
 

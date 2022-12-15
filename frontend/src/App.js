@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import AuthController from './components/authController'
 import Home from './components/pages/Home'
 import Login from './components/pages/Login'
@@ -13,7 +13,9 @@ const App = () => {
       <Switch>
         <Route path="/login" component={Login} exact />
         <Route path="/register" component={Register} exact />
-        
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
         <Route
           path="/"
           component={(props) => (

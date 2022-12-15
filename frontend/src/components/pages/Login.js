@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { checkAuthState, tokenName } from "../authController";
 import { axiosHandler } from "../helper";
 import Loader from "../Loader";
@@ -23,7 +23,7 @@ export const loginRequest = async (data, props, setOpen, setError) => {
     setOpen(true);
   });
   if (result) {
-    await localStorage.setItem(tokenName, JSON.stringify(result.data));
+    await localStorage.setItem(tokenName, result.data.token);
     var userProfile = axios.get(ME_URL, {
       headers: {
         'Authorization': `Token ${result.data.token}`
@@ -44,7 +44,7 @@ const Login = (props) => {
   const [checking, setChecking] = useState(localStorage.getItem(tokenName));
   const [open, setOpen] = useState(false)
   const [error, setError] = useState("")
-  
+
 
   useEffect(() => {
     if (checking) {

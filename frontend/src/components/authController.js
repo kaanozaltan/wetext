@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom';
 import { axiosHandler, getToken, LastUserChat } from './helper';
 import Loader from './Loader';
 import { userDetailAction } from './stateManagement/actions';
@@ -32,12 +33,13 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
         logout(props);
         return;
     }
-    token = JSON.parse(token);
-    localStorage.setItem('token', token.token)
+    console.log(token);
 
+    // token = JSON.parse(token);
+    localStorage.setItem('token', token)
     var userProfile = axios.get(ME_URL, {
         headers: {
-            'Authorization': `Token ${token.token}`
+            'Authorization': `Token ${token}`
         }
     }).then(res => {
         localStorage.setItem('user', JSON.stringify(res.data));
@@ -54,7 +56,10 @@ const AuthController = (props) => {
     const [checking, setChecking] = useState(true)
 
     const { dispatch } = useContext(store);
-
+    const user = JSON.parse(localStorage.getItem("user"))
+    if(!user){
+        props.history.push('/login')
+    }
     useEffect(() => {
         checkAuthState(setChecking, dispatch, props);
     }, []);
