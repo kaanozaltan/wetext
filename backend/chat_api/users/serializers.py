@@ -15,12 +15,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
 
-class RefreshSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
-
-
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name')
