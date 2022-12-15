@@ -300,7 +300,6 @@ a {
     width: 100%;
     box-sizing: border-box;
     transition: .5s ease;
-    height: 700px;
 
     @media screen and (max-width: 480px) {
         padding: 20px;
@@ -308,7 +307,6 @@ a {
 }
 
 .noMessage {
-    height: 700px;
     font-size: 14px;
     color: black;
     text-align: center;
@@ -362,7 +360,7 @@ a {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-top: 75%;
 
     .typeMes {
         color: white;
