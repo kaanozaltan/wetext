@@ -6,12 +6,6 @@ let path = require("path");
 let socket = require("socket.io")();
 
 const port = 9000;
-// const io = require("socket.io")(6000, {
-//     cors: {
-//         origin: 'http://localhost:3000'
-//     }
-// })
-
 
 app = express();
 
