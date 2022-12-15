@@ -1,21 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { checkAuthState, tokenName } from "../authController";
 import { axiosHandler } from "../helper";
 import Loader from "../Loader";
-import { LOGIN_URL } from "../utils/urls";
+import { LOGIN_URL, ME_URL } from "../utils/urls";
 import logo from "../../assets/logo.png"
+import axios from "axios";
+import { store } from "../stateManagement/store";
 
 
 export const loginRequest = async (data, props) => {
+
   const result = await axiosHandler({
     method: "post",
     url: LOGIN_URL,
     data: data,
   }).catch((e) => console.log(e));
   if (result) {
-    localStorage.setItem(tokenName, JSON.stringify(result.data));
-    props.history.push("/home");
+    await localStorage.setItem(tokenName, JSON.stringify(result.data));
+    var userProfile = axios.get(ME_URL, {
+      headers: {
+        'Authorization': `Token ${result.data.token}`
+      }
+    }).then(res => {
+      localStorage.setItem('user', JSON.stringify(res.data));
+      props.history.push("/home");
+
+      // dispatch({type: userDetailAction, payload: res.data})
+    }).catch((error) => {
+      console.log(error);
+    })
+
   }
 };
 

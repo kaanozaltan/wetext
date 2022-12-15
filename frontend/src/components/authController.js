@@ -9,7 +9,6 @@ import { LOGOUT_URL, ME_URL, REFRESH_URL } from './utils/urls';
 export const tokenName = "tokenName";
 
 export const logout = (props) => {
-    // console.log(props);
     if (localStorage.getItem(tokenName)) {
         axiosHandler({
             method: "get",
@@ -38,7 +37,6 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
             'Authorization': `Token ${token.token}`
         }
     }).then(res => {
-        console.log(res.data);
         localStorage.setItem('user', JSON.stringify(res.data));
         dispatch({type: userDetailAction, payload: res.data})
     }).catch((error) => {
