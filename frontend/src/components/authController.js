@@ -18,6 +18,8 @@ export const logout = (props) => {
         });
     }
     localStorage.removeItem(tokenName);
+    localStorage.removeItem("activeFriend");
+    localStorage.removeItem("token");
     localStorage.removeItem(LastUserChat);
     props.history.push("/login");
 };
@@ -30,14 +32,13 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
     }
     token = JSON.parse(token);
     localStorage.setItem('token', token.token)
-    // const response = await axios.get(`/me?token=${token.access}`);
-    // console.log(response);
 
     var userProfile = axios.get(ME_URL, {
         headers: {
             'Authorization': `Token ${token.token}`
         }
     }).then(res => {
+        console.log(res.data);
         localStorage.setItem('user', JSON.stringify(res.data));
         dispatch({type: userDetailAction, payload: res.data})
     }).catch((error) => {
@@ -45,36 +46,7 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
     })
 
     userProfile = JSON.parse(localStorage.getItem("user"));
-    // console.log(userProfile);
     setChecking(false);
-
-    // const userProfile = await axiosHandler({
-    //     method: "get",
-    //     url: ME_URL,
-    //     token: token.access,
-    // }).catch((e) => {
-
-    //     console.log("error");
-    //     console.log(e);
-    // });
-    // if (userProfile) {
-    //     setChecking(false);
-    //     dispatch({ type: userDetailAction, payload: userProfile.data });
-        // } else {
-        //     const getNewAccess = await axiosHandler({
-        //         method: "post",
-        //         url: REFRESH_URL,
-        //         data: {
-        //             refresh: token.refresh,
-        //         },
-        //     }).catch((e) => null);
-        //     if (getNewAccess) {
-        //         localStorage.setItem(tokenName, JSON.stringify(getNewAccess.data));
-        //         checkAuthState(setChecking, dispatch, props);
-        //     } else {
-        //         logout(props);
-        //     }
-    // }
 };
 
 const AuthController = (props) => {

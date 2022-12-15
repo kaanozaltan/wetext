@@ -1,25 +1,25 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosHandler } from "../helper";
 import { REGISTER_URL } from "../utils/urls";
-import { AuthForm } from "./Login";
+import { AuthForm, loginRequest } from "./Login";
+import logo from "../../assets/logo.png"
+
 
 const Register = (props) => {
   const [registerData, setRegisterData] = useState({});
 
   const submit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    const result = await axiosHandler({
-      method: "post",
-      url: REGISTER_URL,
-      data: registerData,
-    }).catch((e) => console.log(e));
-    console.log(result);
-    // if (result) {
-    //   await loginRequest(registerData, setError, props);
-    // }
-    // setLoading(false);
+    var result = axios.post(REGISTER_URL, registerData,
+    ).then(res => {
+      console.log(res);
+      loginRequest(registerData, props);
+
+    }).catch((error) => {
+      console.log(error);
+    })
   };
 
   const onChange = (e) => {
@@ -32,7 +32,7 @@ const Register = (props) => {
   return (
     <div className="loginContainer">
       <div className="inner">
-        <div className="logo">Chat App</div>
+        <img className="logo" src={logo}></img>
         <div className="title">Sign up</div>
         <AuthForm
           data={registerData}

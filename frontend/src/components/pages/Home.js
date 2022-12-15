@@ -12,7 +12,7 @@ const Home = (props) => {
   const [activeFriend, setActiveFriend] = useState(null);
   const [me, setMe] = useState({})
 
-  const {dispatch} = useContext(store)
+  const { dispatch } = useContext(store)
 
   useEffect(() => {
     const me = JSON.parse(localStorage.getItem("user"));
@@ -20,10 +20,9 @@ const Home = (props) => {
   }, [])
 
   const selectFriend = (friend) => {
-    console.log(friend);
     setActiveFriend(friend)
     localStorage.setItem('activeFriend', JSON.stringify(friend));
-    dispatch({type: activeChatUserAction, payload: friend})
+    dispatch({ type: activeChatUserAction, payload: friend })
   }
 
   return (
@@ -45,10 +44,10 @@ const Home = (props) => {
         </div>
         <div className="main">
           {activeFriend ? (
-            <Chat activeFriend={activeFriend} loggedUser={userdetail}/>
+            <Chat activeFriend={activeFriend} loggedUser={userdetail} />
           ) : (
             <div>
-              <div className="noUser">Click on a user to start chatting</div>
+              <div className="noFriend">Click on a user to start chatting</div>
             </div>
           )}
         </div>

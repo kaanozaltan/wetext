@@ -4,21 +4,22 @@ import { checkAuthState, tokenName } from "../authController";
 import { axiosHandler } from "../helper";
 import Loader from "../Loader";
 import { LOGIN_URL } from "../utils/urls";
+import logo from "../../assets/logo.png"
 
 
 export const loginRequest = async (data, props) => {
-    console.log(data);
-    const result = await axiosHandler({
-      method: "post",
-      url: LOGIN_URL,
-      data: data,
-    }).catch((e) => console.log(e));
-    console.log(result);
-    if (result) {
-      localStorage.setItem(tokenName, JSON.stringify(result.data));
-      props.history.push("/home");
-    }
-  };
+  console.log(data);
+  const result = await axiosHandler({
+    method: "post",
+    url: LOGIN_URL,
+    data: data,
+  }).catch((e) => console.log(e));
+  console.log(result);
+  if (result) {
+    localStorage.setItem(tokenName, JSON.stringify(result.data));
+    props.history.push("/home");
+  }
+};
 
 const Login = (props) => {
   const [loginData, setLoginData] = useState({});
@@ -58,8 +59,10 @@ const Login = (props) => {
           <Loader />
         </div>
       ) : (
+
         <div className="inner">
-          <div className="logo">Chat App</div>
+          <img className="logo" src={logo}></img>
+
           <div className="title">Sign in</div>
           <AuthForm
             login
@@ -94,7 +97,7 @@ export const AuthForm = (props) => {
               className="input-field"
               placeholder="Name"
               value={props.data.name}
-              name="name"
+              name="first_name"
               onChange={props.onChange}
               required
             />
@@ -106,7 +109,7 @@ export const AuthForm = (props) => {
               className="input-field"
               placeholder="Surname"
               value={props.data.surname}
-              name="surname"
+              name="last_name"
               onChange={props.onChange}
               required
             />

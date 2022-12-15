@@ -13,7 +13,7 @@ function Chat({ activeFriend }) {
     const [me, setMe] = useState({});
     const [messages, setMessages] = useState([]);
 
-    const {state:{activeChat}, dispatch} = useContext(store)
+    const { state: { activeChat }, dispatch } = useContext(store)
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
@@ -23,12 +23,12 @@ function Chat({ activeFriend }) {
     }, [])
 
     useEffect(() => {
-        if(activeChat){
+        if (activeChat) {
             getMessages();
-            dispatch({type: activeChatAction, payload:null})
+            dispatch({ type: activeChatAction, payload: null })
         }
         getMessages()
-    }, [activeChat])
+    }, [activeFriend, activeChat])
 
     useEffect(() => {
         console.log(messages);
@@ -46,9 +46,13 @@ function Chat({ activeFriend }) {
             console.log(res);
             // setMessages(res)
             res.data.forEach((item) => {
+                var d = new Date(item.created_at);
+                var time = d.getHours() + ":" + d.getMinutes();
+                console.log(time);
                 let obj = {
                     receiver: item.receiver,
                     content: item.content,
+                    time
                 }
                 arr.push(obj)
             })
@@ -58,7 +62,7 @@ function Chat({ activeFriend }) {
             console.log(error);
         })
 
-        if(result){
+        if (result) {
             setMessages([messages, ...arr]);
         }
 
@@ -69,11 +73,15 @@ function Chat({ activeFriend }) {
     }
 
     const submitMessage = async (e) => {
+        var d = new Date();
+        var time = d.getHours() + ":" + d.getMinutes();
+        console.log(time);
         e.preventDefault();
         let data = {
             sender_id: me.id,
             receiver_id: activeFriend.id,
             content: message,
+            time
         };
         setMessages([...messages, data])
         const token = localStorage.getItem("token")
@@ -97,7 +105,7 @@ function Chat({ activeFriend }) {
                 <div className="flex align-center">
                     <div className='friendCard'>
                         <div className="contents">
-                            <div className="name">{activeFriend.first_name} {activeFriend.last_name}</div>
+                            <div className="chatname">{activeFriend.first_name} {activeFriend.last_name}</div>
                         </div>
                     </div>
                 </div>
@@ -107,7 +115,7 @@ function Chat({ activeFriend }) {
                     <div className="noMessage">No message yet</div>
                 ) : (
                     messages.map((item, key) => (
-                        
+
                         <div className={`messageBubbleContainer ${item.receiver === me.id ? "" : "sender"}`}>
                             <div className="messageBubble">
                                 <p>{item.content}</p>
@@ -118,17 +126,18 @@ function Chat({ activeFriend }) {
                 )}
             </div>
             <form onSubmit={submitMessage} className="messageZone">
-                <div className="flex align-center justify-between topPart">
-                    <div />
-                    <button type="submit">
-                        <FiSend></FiSend>
-                    </button>
-                </div>
                 <input
+                    className='typeMes'
                     placeholder="Type your message here..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
+                <div className="flex align-center">
+                    <button className='submitButton' type="submit">
+                        <FiSend></FiSend>
+                    </button>
+                </div>
+
             </form>
         </div>
     )
