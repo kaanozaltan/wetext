@@ -301,6 +301,7 @@ a {
     width: 100%;
     box-sizing: border-box;
     transition: .5s ease;
+    height: 70vh;
 
     @media screen and (max-width: 480px) {
         padding: 20px;
@@ -311,7 +312,6 @@ a {
     font-size: 14px;
     color: black;
     text-align: center;
-    height: 70vh;
 }
 
 .submitButton{
@@ -322,7 +322,6 @@ a {
 
 .messageBubbleContainer {
     display: flex;
-
 
     .messageBubble {
         max-width: 600px;
