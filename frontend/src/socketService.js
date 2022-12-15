@@ -17,9 +17,7 @@ const SocketService = () => {
   const setupSocket = () => {
     socket = openSocket(SOCKET_URL);
     socket.on("command", (data) => {
-        // console.log(userDetail);
         const user = JSON.parse(localStorage.getItem("user"));
-        console.log(user);
       if (!user) return;
       if (user.id !== data.receiver) return;
       dispatch({ type: activeChatAction, payload: true });

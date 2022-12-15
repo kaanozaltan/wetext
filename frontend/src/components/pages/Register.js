@@ -14,7 +14,6 @@ const Register = (props) => {
     e.preventDefault();
     var result = axios.post(REGISTER_URL, registerData,
     ).then(res => {
-      console.log(res);
       loginRequest(registerData, props);
 
     }).catch((error) => {

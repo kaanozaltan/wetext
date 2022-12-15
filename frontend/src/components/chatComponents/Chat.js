@@ -17,7 +17,6 @@ function Chat({ activeFriend }) {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
-        // console.log(user);
         setMe(user)
         getMessages()
     }, [])
@@ -43,12 +42,9 @@ function Chat({ activeFriend }) {
                 'Authorization': `Token ${token}`
             }
         }).then(res => {
-            console.log(res);
-            // setMessages(res)
             res.data.forEach((item) => {
                 var d = new Date(item.created_at);
                 var time = d.getHours() + ":" + d.getMinutes();
-                console.log(time);
                 let obj = {
                     receiver: item.receiver,
                     content: item.content,
@@ -56,7 +52,6 @@ function Chat({ activeFriend }) {
                 }
                 arr.push(obj)
             })
-            // console.log(arr);
             setMessages(arr.reverse())
         }).catch((error) => {
             console.log(error);
@@ -75,7 +70,6 @@ function Chat({ activeFriend }) {
     const submitMessage = async (e) => {
         var d = new Date();
         var time = d.getHours() + ":" + d.getMinutes();
-        console.log(time);
         e.preventDefault();
         let data = {
             sender_id: me.id,

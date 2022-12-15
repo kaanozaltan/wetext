@@ -8,13 +8,11 @@ import logo from "../../assets/logo.png"
 
 
 export const loginRequest = async (data, props) => {
-  console.log(data);
   const result = await axiosHandler({
     method: "post",
     url: LOGIN_URL,
     data: data,
   }).catch((e) => console.log(e));
-  console.log(result);
   if (result) {
     localStorage.setItem(tokenName, JSON.stringify(result.data));
     props.history.push("/home");
@@ -38,7 +36,6 @@ const Login = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log("submit");
     // setLoading(true);
     // setError(null);
     await loginRequest(loginData, props);
