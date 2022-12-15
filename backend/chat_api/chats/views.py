@@ -29,7 +29,7 @@ def handle_request(serializer):
         pass
     return True
 
-
+# Controllers
 class MessageView(ModelViewSet):
     serializer_class = MessageSerializer
     queryset = Message.objects.select_related('sender', 'receiver')
