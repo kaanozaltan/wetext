@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { axiosHandler } from "../helper";
 import { REGISTER_URL } from "../utils/urls";
 import { AuthForm, loginRequest } from "./Login";
 import logo from "../../assets/logo.png"

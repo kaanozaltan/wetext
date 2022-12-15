@@ -1,9 +1,6 @@
-import { type } from '@testing-library/user-event/dist/type';
 import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
-import { sendTestSocket } from '../../socketService';
-import { axiosHandler, getToken } from '../helper';
 import { activeChatAction } from '../stateManagement/actions';
 import { store } from '../stateManagement/store';
 import { MESSAGES_URL, MESSAGE_URL } from '../utils/urls';

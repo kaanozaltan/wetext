@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { logout, tokenName } from "./authController";
-import { ME_URL, REFRESH_URL } from "./utils/urls";
+import { ME_URL } from "./utils/urls";
 
 export const LastUserChat = "lastUserChat";
 
@@ -20,7 +20,7 @@ export const axiosHandler = ({
       let axiosProps = { method: methodType, url, data };
   
       if (token) {
-        axiosProps.headers = { Authorization: `Bearer ${token}` };
+        axiosProps.headers = { Authorization: `Token ${token}` };
       }
       if (extra) {
         axiosProps.headers = { ...axiosProps.headers, ...extra };
@@ -43,18 +43,6 @@ export const axiosHandler = ({
     if (userProfile) {
       return token.access;
     } else {
-      const getNewAccess = await axiosHandler({
-        method: "post",
-        url: REFRESH_URL,
-        data: {
-          refresh: token.refresh,
-        },
-      }).catch((e) => null);
-      if (getNewAccess) {
-        localStorage.setItem(tokenName, JSON.stringify(getNewAccess.data));
-        return getNewAccess.data.access;
-      } else {
-        logout(props);
-      }
+      console.log("error");
     }
   };

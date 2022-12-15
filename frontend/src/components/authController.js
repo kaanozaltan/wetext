@@ -4,23 +4,26 @@ import { axiosHandler, getToken, LastUserChat } from './helper';
 import Loader from './Loader';
 import { userDetailAction } from './stateManagement/actions';
 import { store } from './stateManagement/store';
-import { LOGOUT_URL, ME_URL, REFRESH_URL } from './utils/urls';
+import { LOGOUT_URL, ME_URL } from './utils/urls';
 
-export const tokenName = "tokenName";
+export const tokenName = "token";
 
-export const logout = (props) => {
-    if (localStorage.getItem(tokenName)) {
-        axiosHandler({
+export const logout = async (props) => {
+    const token = localStorage.getItem(tokenName)
+    if (token) {
+        await axiosHandler({
             method: "get",
             url: LOGOUT_URL,
-            token: getToken(),
-        });
+            token: token,
+        }).then((res) => {
+            localStorage.removeItem(tokenName);
+            localStorage.removeItem("activeFriend");
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            props.history.push("/login");
+        })
     }
-    localStorage.removeItem(tokenName);
-    localStorage.removeItem("activeFriend");
-    localStorage.removeItem("token");
-    localStorage.removeItem(LastUserChat);
-    props.history.push("/login");
+
 };
 
 export const checkAuthState = async (setChecking, dispatch, props) => {
@@ -38,7 +41,7 @@ export const checkAuthState = async (setChecking, dispatch, props) => {
         }
     }).then(res => {
         localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({type: userDetailAction, payload: res.data})
+        dispatch({ type: userDetailAction, payload: res.data })
     }).catch((error) => {
         console.log(error);
     })
