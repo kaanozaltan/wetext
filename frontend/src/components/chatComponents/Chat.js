@@ -110,7 +110,7 @@ function Chat({ activeFriend }) {
                 ) : (
                     messages.map((item, key) => (
 
-                        <div className={`messageBubbleContainer ${item.receiver === me.id ? "" : "sender"}`}>
+                        <div key={key} className={`messageBubbleContainer ${item.receiver === me.id ? "" : "sender"}`}>
                             <div className="messageBubble">
                                 <p>{item.content}</p>
                                 <div className="time">{item.time}</div>

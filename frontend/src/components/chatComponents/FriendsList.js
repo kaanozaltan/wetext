@@ -8,23 +8,6 @@ function FriendsList({selectFriend}) {
   const [activeFriend, setActiveFriend] = useState()
 
   useState(() => {
-    // let friends = [
-    //   {
-    //     name: "Görkem Ayten",
-    //     mesCount: 2,
-    //     lastMes: "Last"
-    //   },
-    //   {
-    //     name: "Ayberk Yaşa",
-    //     mesCount: 3,
-    //     lastMes: "Message"
-    //   },
-    //   {
-    //     name: "Kaan Özaltan",
-    //     mesCount: 1,
-    //     lastMes: "Son"
-    //   }
-    // ]
     const token = localStorage.getItem("token");
     axios.get(FRIENDS_URL, {
       headers: {
@@ -32,7 +15,6 @@ function FriendsList({selectFriend}) {
       }
     }).then((res) => {
       const me = JSON.parse(localStorage.getItem("user"));
-      console.log(me);
       const newFriend = res.data.filter((friend) => {
         return (
           friend.id !== me.id
@@ -52,10 +34,6 @@ function FriendsList({selectFriend}) {
   const handleScroll = () => {
     console.log("scroll");
   }
-
-  // const selectFriend = (friend) => {
-  //   console.log(friend);
-  // }
 
   return (
     <div>
