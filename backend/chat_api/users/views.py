@@ -73,4 +73,4 @@ class MeView(APIView):
 class UserListAPIView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.exclude(is_staff=True, is_superuser=True)
