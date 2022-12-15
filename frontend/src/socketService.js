@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import openSocket from "socket.io-client";
 import { activeChatAction } from "./components/stateManagement/actions";
 import { store } from "./components/stateManagement/store";
-// import { store } from "./stateManagement/store;
 
 const SOCKET_URL = "http://localhost:9000/";
 let socket;
@@ -17,7 +16,7 @@ const SocketService = () => {
   const setupSocket = () => {
     socket = openSocket(SOCKET_URL);
     socket.on("command", (data) => {
-        const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem("user"));
       if (!user) return;
       if (user.id !== data.receiver) return;
       dispatch({ type: activeChatAction, payload: true });

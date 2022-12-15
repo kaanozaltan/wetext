@@ -31,7 +31,6 @@ function Chat({ activeFriend }) {
     }, [activeFriend, activeChat])
 
     useEffect(() => {
-        console.log(messages);
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }, [messages])
 
@@ -74,7 +73,6 @@ function Chat({ activeFriend }) {
       }
 
     const handleScroll = () => {
-        console.log("handle scroll");
     }
 
     const submitMessage = async (e) => {
@@ -94,16 +92,14 @@ function Chat({ activeFriend }) {
                 'Authorization': `Token ${token}`
             }
         }).then(res => {
-            console.log(res);
+            // console.log(res);
         }).catch((error) => {
             console.log(error);
         })
         if(result){
             scrollToBottom()
         }
-        // sendTestSocket(data)
         setMessage("")
-        // console.log(result);
     }
     return (
         <div>

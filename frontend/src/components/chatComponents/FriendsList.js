@@ -24,15 +24,12 @@ function FriendsList({selectFriend}) {
     }).catch((error) => {
       console.log(error);
     })
-    // setFriends(friends)
   }, [])
 
   useEffect(() => {
-    // console.log(friends);
   }, [friends])
 
   const handleScroll = () => {
-    console.log("scroll");
   }
 
   return (

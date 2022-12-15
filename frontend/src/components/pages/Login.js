@@ -7,15 +7,21 @@ import { LOGIN_URL, ME_URL } from "../utils/urls";
 import logo from "../../assets/logo.png"
 import axios from "axios";
 import { store } from "../stateManagement/store";
+import { Alert, Snackbar } from "@mui/material";
 
 
-export const loginRequest = async (data, props) => {
+
+
+export const loginRequest = async (data, props, setOpen, setError) => {
 
   const result = await axiosHandler({
     method: "post",
     url: LOGIN_URL,
     data: data,
-  }).catch((e) => console.log(e));
+  }).catch((e) => {
+    setError(e.response.data.error)
+    setOpen(true);
+  });
   if (result) {
     await localStorage.setItem(tokenName, JSON.stringify(result.data));
     var userProfile = axios.get(ME_URL, {
@@ -33,11 +39,12 @@ export const loginRequest = async (data, props) => {
 
   }
 };
-
 const Login = (props) => {
   const [loginData, setLoginData] = useState({});
   const [checking, setChecking] = useState(localStorage.getItem(tokenName));
-
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState("")
+  
 
   useEffect(() => {
     if (checking) {
@@ -51,10 +58,7 @@ const Login = (props) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    // setError(null);
-    await loginRequest(loginData, props);
-    // setLoading(false);
+    await loginRequest(loginData, props, setOpen, setError);
   };
 
   const onChange = (e) => {
@@ -87,6 +91,12 @@ const Login = (props) => {
           </div>
         </div>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      ><Alert severity="error">{error}</Alert></Snackbar>
     </div>
   );
 };

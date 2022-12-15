@@ -5,10 +5,17 @@ import { axiosHandler } from "../helper";
 import { REGISTER_URL } from "../utils/urls";
 import { AuthForm, loginRequest } from "./Login";
 import logo from "../../assets/logo.png"
+import { Alert, Snackbar } from "@mui/material";
 
 
 const Register = (props) => {
   const [registerData, setRegisterData] = useState({});
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState("")
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   const submit = async (e) => {
     e.preventDefault();
@@ -18,6 +25,10 @@ const Register = (props) => {
 
     }).catch((error) => {
       console.log(error);
+      const errMes = capitalizeFirstLetter(error.response.data.username[0]);
+      setOpen(true)
+      setError(errMes);
+
     })
   };
 
@@ -42,6 +53,12 @@ const Register = (props) => {
           Already got an account? <Link className="link" to="/login">Sign in</Link>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      ><Alert severity="error">{error}</Alert></Snackbar>
     </div>
   );
 };
