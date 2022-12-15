@@ -2,7 +2,7 @@
 
 ## Running Commands
 
-### Running Web Socket
+### Running Web Socket (PORT 9000)
 
 `cd <PROJECT_ROOT_DIR>/chat-socket`
 
@@ -10,7 +10,7 @@
 
 `npm start`
 
-### Running Frontend
+### Running Frontend (PORT 3000)
 
 `cd <PROJECT_ROOT_DIR>/frontend`
 
@@ -18,7 +18,7 @@
 
 `npm start`
 
-### Running Backend
+### Running Backend (PORT 8000)
 
 `cd <PROJECT_ROOT_DIR>/backend`
 
