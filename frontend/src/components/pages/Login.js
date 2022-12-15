@@ -83,7 +83,7 @@ const Login = (props) => {
             onChange={onChange}
           />
           <div className="switchOption">
-            Don’t have an accout yet? <Link to="/register">Sign up</Link>
+            Don’t have an accout yet? <Link className="link" to="/register">Sign up</Link>
           </div>
         </div>
       )}

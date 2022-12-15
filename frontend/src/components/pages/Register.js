@@ -39,7 +39,7 @@ const Register = (props) => {
           onChange={onChange}
         />
         <div className="switchOption">
-          Already got an account? <Link to="/login">Sign in</Link>
+          Already got an account? <Link className="link" to="/login">Sign in</Link>
         </div>
       </div>
     </div>
