@@ -157,7 +157,7 @@ a {
     }
 
     .side {
-        width: 350px;
+        width: 40vh;
         box-sizing: border-box;
         background-color: $primaryColorLight;
         position: relative;
@@ -185,7 +185,7 @@ a {
         .heading {
             border-bottom: 2px solid rgba(white, 0.1);
             padding: 0 50px;
-            height: 80px;
+            height: 8vh;
             background-color: #003166;
 
             @media screen and (max-width: 480px) {
