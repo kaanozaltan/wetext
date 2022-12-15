@@ -30,14 +30,17 @@ body {
 
     .input-field {
         width: 100%;
-
         padding: 10px;
         background-color: transparent;
         border: none;
         border-bottom: 1px solid rgba(white, 0.1);
         outline: none;
-        color: white;
         box-sizing: border-box;
+        color: white;
+    }
+
+    ::placeholder{
+        color: rgba(white, 0.8);
     }
 
     .input-container {
@@ -69,6 +72,10 @@ body {
         b {
             font-weight: 500;
             background-color: white;
+        }
+
+        .link{
+            color: white;
         }
     }
 }
